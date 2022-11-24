@@ -1,8 +1,13 @@
-//Basic
+
 const express = require("express");
 const router = require("./src/routes/api");
 const app = new express();
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config();
+//const client = new MongoClient(process.env.DATABASE_SERVER);
+// console.log(client);
+
 
 //security middleware
 const rateLimit = require("express-rate-limit");
@@ -30,8 +35,8 @@ const limiter = rateLimit({windowMs:15*60*1000,max:3000});
 app.use(limiter);
 
 //mongodb database connection
-let uri = "mongodb://127.0.0.1:27017/Todo";
-let option = {user:"",pass:"",autoIndex:true};
+let uri =process.env.DATABASE_SERVER.toString();
+let option = {autoIndex:true};
 mongoose.connect(uri,option,(error)=>{
    if(error)
    {
